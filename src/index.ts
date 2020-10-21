@@ -1,3 +1,3 @@
-import './index.scss';
+import './static/scss/index.scss';
 
 console.log('is Working');

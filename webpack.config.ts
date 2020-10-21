@@ -50,9 +50,17 @@ const clientConfig: Configuration = {
         ],
       },
       {
-        test: /\.(ts|tsx|js)\$/,
+        test: /\.(ts|tsx|js)$/,
         exclude: /node_modules/,
         use: jsLoaders(),
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: 'file-loader',
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        use: 'file-loader',
       },
     ],
   },

@@ -10,13 +10,15 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --open",
     "build": "cross-env NODE_ENV=production webpack --mode production",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx src",
+    "lint:fix": "yarn lint --fix"
   },
   "browserslist": "> 0.25%, not dead",
   "private": true,
   "author": "Grigoriy Valeev <senponsakura@mail.ru>",
   "devDependencies": {
     "@babel/core": "^7.11.6",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-typescript": "^7.10.4",
     "@types/clean-webpack-plugin": "^0.1.3",
@@ -30,6 +32,7 @@
     "@typescript-eslint/parser": "^4.3.0",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
+    "babel-plugin-module-resolver": "^4.0.0",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.1.1",
     "cross-env": "^7.0.2",

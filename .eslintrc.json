@@ -10,6 +10,8 @@
   },
   "extends": ["airbnb-typescript/base"],
   "rules": {
+    "class-methods-use-this": "off",
+    "@typescript-eslint/no-useless-constructor": "off"
   },
   "ignorePatterns": [
     "*.config.ts",

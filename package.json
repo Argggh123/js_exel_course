@@ -13,7 +13,7 @@
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src",
     "lint:fix": "yarn lint --fix"
   },
-  "browserslist": "> 0.25%, not dead",
+  "browserslist": ["> 0.25%", "not dead"],
   "private": true,
   "author": "Grigoriy Valeev <senponsakura@mail.ru>",
   "devDependencies": {

@@ -1,12 +1,26 @@
-import { DomClassElement } from '@/utils/types';
+import {
+  CellObject, I$, IDom,
+} from '@core/Dom/types';
 
-export class Dom {
-  $el: HTMLElement;
+export class Dom implements IDom {
+  private readonly $el: HTMLElement;
 
   constructor(selector: string | HTMLElement) {
     this.$el = typeof selector === 'string'
       ? document.querySelector(selector)
       : selector;
+  }
+
+  fill(text: string) {
+    this.$el.textContent = text;
+  }
+
+  getContent(): string {
+    if (this.$el.tagName.toLowerCase() === 'input') {
+      return (<HTMLInputElement> this.$el).value.trim();
+    }
+
+    return this.$el.textContent.trim();
   }
 
   html(html?: string) {
@@ -25,14 +39,18 @@ export class Dom {
     return this;
   }
 
-  append(node: DomClassElement) {
-    let htmlNode: HTMLElement;
+  focus(): this {
+    this.$el.focus();
 
-    if (node instanceof Dom) {
-      htmlNode = node.$el;
-    } else {
-      htmlNode = node;
-    }
+    return this;
+  }
+
+  getElement() {
+    return this.$el;
+  }
+
+  append(node: IDom) {
+    const htmlNode = node.getElement();
 
     if (Element.prototype.append) {
       this.$el.append(htmlNode);
@@ -48,8 +66,7 @@ export class Dom {
   }
 
   closest(selector: string) {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    return $(this.$el.closest<HTMLElement>(selector));
+    return new Dom(this.$el.closest<HTMLElement>(selector));
   }
 
   getCords() {
@@ -65,24 +82,45 @@ export class Dom {
   }
 
   find(selector: string) {
-    return this.$el.querySelector(selector);
+    return new Dom(this.$el.querySelector<HTMLElement>(selector));
   }
 
   findAll(selector: string) {
-    return this.$el.querySelectorAll(selector);
+    return this.$el.querySelectorAll<HTMLElement>(selector);
   }
 
   css(css: Partial<CSSStyleDeclaration> = {}) {
     Object.keys(css || {})
-      .forEach((key) => { this.$el.style[key] = css[key]; });
+      .forEach((key) => {
+        this.$el.style[key] = css[key];
+      });
+  }
+
+  addClassNames(...classNames: string[]) {
+    this.$el.classList.add(...classNames);
+  }
+
+  removeClassNames(...classNames: string[]) {
+    this.$el.classList.remove(...classNames);
+  }
+
+  getCellCords(): CellObject {
+    const cellIdCords = this.id().split(':');
+
+    return {
+      col: Number(cellIdCords[1]),
+      row: Number(cellIdCords[0]),
+    };
+  }
+
+  id(): string {
+    return this.data.id;
   }
 }
 
-export default function $(selector: string | HTMLElement): Dom {
-  return new Dom(selector);
-}
+const $: I$ = (selector: string | HTMLElement) => new Dom(selector);
 
-$.create = (tagName: string, classes: string = '') => {
+$.create = (tagName: string, classes: string = ''): IDom => {
   const el = document.createElement(tagName);
   if (classes) {
     el.classList.add(classes);
@@ -90,3 +128,5 @@ $.create = (tagName: string, classes: string = '') => {
 
   return $(el);
 };
+
+export default $;

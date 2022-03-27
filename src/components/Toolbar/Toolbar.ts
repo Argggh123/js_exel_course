@@ -1,7 +1,7 @@
-import ExelComponent from '@core/ExelComponent/ExelComponent';
+import Component from '@core/ExelComponent/Component';
 import { Dom } from '@core/Dom/Dom';
 
-export default class Toolbar extends ExelComponent {
+export default class Toolbar extends Component {
   static className = 'exel__toolbar';
 
   constructor($root: Dom) {

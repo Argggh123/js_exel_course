@@ -6,8 +6,8 @@ import Table from '@/components/Table/Table';
 
 import './static/scss/index.scss';
 
-const exel = new Exel('#app', {
+const app = new Exel('#app', {
   components: [Header, Toolbar, Formula, Table],
 });
 
-exel.render();
+app.render();

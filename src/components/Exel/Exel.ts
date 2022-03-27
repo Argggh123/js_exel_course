@@ -1,28 +1,28 @@
-import $, { Dom } from '@core/Dom/Dom';
-import ExelComponent from '@core/ExelComponent/ExelComponent';
-import { ExelConstructorOptions, ExelInterface } from '@/utils/types';
+import $ from '@core/Dom/Dom';
+import { ExelConstructorOptions, IExel } from '@/components/Exel/types';
+import { IDom } from '@core/Dom/types';
+import { IComponent } from '@core/ExelComponent/types';
 
-export default class Exel implements ExelInterface {
-  $el: Dom;
+export default class Exel implements IExel {
+  private readonly $el: IDom;
 
-  components: ExelComponent[];
+  private components: IComponent[];
 
-  options: ExelConstructorOptions;
-
-  constructor(selector: string, options: ExelConstructorOptions) {
+  constructor(selector: string, private readonly options: ExelConstructorOptions) {
     this.$el = $(selector);
-    this.options = options;
   }
 
-  getRoot() {
+  private getRoot() {
     const $root = $.create('div', 'exel');
-    this.components = this.options.components?.map((Component) => {
+
+    this.components = this.options.components.map((Component) => {
       const $el = $.create('div', Component.className);
-      const component = new Component($el, { name: '' });
-      $el.html(component.toHtml());
+
+      const ExelComponent = new Component($el, {});
+      $el.html(ExelComponent.toHtml());
       $root.append($el);
 
-      return component;
+      return ExelComponent;
     });
 
     return $root;
